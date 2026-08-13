@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30523.141
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaiTap_Windowsform", "BaiTap_Windowsform\BaiTap_Windowsform.csproj", "{70C54C9E-D0F5-40DB-89A7-80F3BC88DA1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bai2", "Bai2\Bai2.csproj", "{D77ACB05-A8AE-427E-A034-24A423DDDD01}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{70C54C9E-D0F5-40DB-89A7-80F3BC88DA1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70C54C9E-D0F5-40DB-89A7-80F3BC88DA1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70C54C9E-D0F5-40DB-89A7-80F3BC88DA1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70C54C9E-D0F5-40DB-89A7-80F3BC88DA1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D77ACB05-A8AE-427E-A034-24A423DDDD01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D77ACB05-A8AE-427E-A034-24A423DDDD01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D77ACB05-A8AE-427E-A034-24A423DDDD01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D77ACB05-A8AE-427E-A034-24A423DDDD01}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {829B58ED-F68B-428D-A393-C9EC28C115A1}
+	EndGlobalSection
+EndGlobal
