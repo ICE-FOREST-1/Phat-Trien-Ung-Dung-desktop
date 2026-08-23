@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "LgHqXKbeCYo=",
+  "dgSpecHash": "dUD9pNgjVuM=",
   "success": true,
-  "projectFilePath": "E:\\Quản Lý Tiệm Thuốc\\QuanLyTiemThuoc\\QuanLyTiemThuoc\\QuanLyTiemThuoc.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "D:\\Test\\Ph-t-tri-n-ng-d-ng-desktop-main\\Quản Lý Tiệm Thuốc\\QuanLyTiemThuoc\\QuanLyTiemThuoc\\QuanLyTiemThuoc.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.30\\microsoft.windowsdesktop.app.ref.8.0.30.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.30\\microsoft.netcore.app.ref.8.0.30.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.30\\microsoft.aspnetcore.app.ref.8.0.30.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\8.0.30\\microsoft.netcore.app.host.win-x64.8.0.30.nupkg.sha512"
+  ],
   "logs": []
 }

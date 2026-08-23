@@ -15,6 +15,7 @@ namespace QuanLyTiemThuoc
         private readonly KhachHang khachHang;
         private readonly DsKhachHang dsKhachHang;
         private readonly DsGiaoDich dsGiaoDich;
+        private List<ChiTietDonHang> gioHang = new List<ChiTietDonHang>();
 
         public MuaHang(KhachHang khachHang, DsKhachHang dsKhachHang, DsGiaoDich dsGiaoDich)
         {
@@ -24,18 +25,30 @@ namespace QuanLyTiemThuoc
             this.dsGiaoDich = dsGiaoDich;
 
             Load += MuaHang_Load;
-            btThemGiaoDich.Click += btThemGiaoDich_Click;
+            btnThem.Click += BtnThem_Click;
+            btThemGiaoDich.Click += BtThemGiaoDich_Click;
         }
 
         private void MuaHang_Load(object sender, EventArgs e)
         {
             lblKhachHang.Text = khachHang.HoTen + " - " + khachHang.SoDienThoai;
             HienThiLichSu();
+            KhoiTaoDataGridView2();
+        }
+
+        /// <summary>
+        /// Khởi tạo cấu hình cho dataGridView2 để hiển thị chi tiết hàng được thêm
+        /// </summary>
+        private void KhoiTaoDataGridView2()
+        {
+            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView2.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView2.AllowUserToAddRows = false;
         }
 
         /// <summary>
         /// Đổ lịch sử giao dịch của khách hàng đang mua hàng lên dataGridView1.
-        /// Thứ tự cột: clMaDG, clNgayMua, clNoiDung, clSoTien, clDiemNhan.
+        /// Thứ tự cột: clMaDG, clNgayMua, clNoiDung, clSoLuong, clSoTien, clDiemNhan.
         /// </summary>
         private void HienThiLichSu()
         {
@@ -54,28 +67,34 @@ namespace QuanLyTiemThuoc
             }
         }
 
-        private void btThemGiaoDich_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Sự kiện khi bấm nút "Thêm" - thêm mặt hàng vào dataGridView2 (giỏ hàng tạm)
+        /// </summary>
+        private void BtnThem_Click(object sender, EventArgs e)
         {
-            string noiDung = cbChon.Text.Trim();
-            string chuoiSoTien = textBox1.Text.Trim();
-            string chuoiSoLuong = txtSoLuong.Text.Trim();
-
-            if (string.IsNullOrEmpty(noiDung))
+            // Kiểm tra loại thuốc
+            string tenThuoc = cbChon.Text.Trim();
+            if (string.IsNullOrEmpty(tenThuoc))
             {
-                MessageBox.Show("Vui lòng chọn hoặc nhập loại thuốc.",
+                MessageBox.Show("Vui lòng chọn loại thuốc.",
                     "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cbChon.Focus();
                 return;
             }
 
-            decimal soTien;
-            if (!decimal.TryParse(chuoiSoTien, out soTien) || soTien <= 0)
+            // Kiểm tra số tiền (đơn giá)
+            string chuoiSoTien = textBox1.Text.Trim();
+            decimal donGia;
+            if (!decimal.TryParse(chuoiSoTien, out donGia) || donGia <= 0)
             {
                 MessageBox.Show("Số tiền không hợp lệ. Vui lòng nhập một số lớn hơn 0.",
                     "Sai định dạng", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 textBox1.Focus();
                 return;
             }
+
+            // Kiểm tra số lượng
+            string chuoiSoLuong = txtSoLuong.Text.Trim();
             int soLuong;
             if (!int.TryParse(chuoiSoLuong, out soLuong) || soLuong <= 0)
             {
@@ -85,30 +104,105 @@ namespace QuanLyTiemThuoc
                 return;
             }
 
-            // 5. Tính tổng tiền = Đơn giá * Số lượng
-            decimal tongTien = soTien * soLuong;
+            // Tính tổng tiền
+            decimal thanhTien = donGia * soLuong;
 
-            GiaoDich giaoDichMoi = dsGiaoDich.ThemGiaoDich(khachHang.SoDienThoai, noiDung, tongTien, soLuong);
+            // Thêm vào giỏ hàng tạm
+            gioHang.Add(new ChiTietDonHang
+            {
+                TenThuoc = tenThuoc,
+                SoLuong = soLuong,
+                DonGia = donGia,
+                ThanhTien = thanhTien
+            });
+
+            // Đổ lên dataGridView2
+            HienThiGioHang();
+
+            // Xóa trắng các ô nhập
+            cbChon.Text = string.Empty;
+            textBox1.Text = string.Empty;
+            txtSoLuong.Text = string.Empty;
+            cbChon.Focus();
+        }
+
+        /// <summary>
+        /// Hiển thị danh sách giỏ hàng lên dataGridView2
+        /// </summary>
+        private void HienThiGioHang()
+        {
+            dataGridView2.Rows.Clear();
+
+            foreach (var item in gioHang)
+            {
+                dataGridView2.Rows.Add(
+                    item.TenThuoc,
+                    item.SoLuong,
+                    item.ThanhTien.ToString("N0"));
+            }
+        }
+
+        /// <summary>
+        /// Sự kiện khi bấm nút "Thanh Toán" - lưu lại tất cả các mặt hàng vào hóa đơn (dataGridView1)
+        /// </summary>
+        private void BtThemGiaoDich_Click(object sender, EventArgs e)
+        {
+            // Kiểm tra nếu giỏ hàng trống
+            if (gioHang.Count == 0)
+            {
+                MessageBox.Show("Giỏ hàng trống. Vui lòng thêm ít nhất một mặt hàng.",
+                    "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // Tính tổng giá trị hóa đơn
+            decimal tongHoaDon = gioHang.Sum(x => x.ThanhTien);
+
+            // Tạo chuỗi mô tả hóa đơn
+            string moTaHoaDon = string.Join("; ", gioHang.Select(x => $"{x.TenThuoc} (SL: {x.SoLuong})"));
+
+            // Tính tổng số lượng
+            int tongSoLuong = gioHang.Sum(x => x.SoLuong);
+
+            // Lưu giao dịch vào dữ liệu
+            GiaoDich giaoDichMoi = dsGiaoDich.ThemGiaoDich(khachHang.SoDienThoai, moTaHoaDon, tongHoaDon, tongSoLuong);
             if (giaoDichMoi == null)
             {
-                MessageBox.Show("Không thể thêm giao dịch. Vui lòng kiểm tra lại thông tin.",
+                MessageBox.Show("Không thể lưu hóa đơn. Vui lòng kiểm tra lại thông tin.",
                     "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            // Cộng điểm tích lũy (theo GiaoDich.TI_LE_DIEM = 0.01% giá trị hóa đơn) vào hồ sơ khách hàng
+            // Cộng điểm tích lũy vào tài khoản khách hàng
             dsKhachHang.CongDiem(khachHang.SoDienThoai, giaoDichMoi.DiemNhan);
 
+            // Hiển thị thông báo thành công
             MessageBox.Show(
-                $"Thêm giao dịch thành công. Khách hàng nhận thêm {giaoDichMoi.DiemNhan} điểm tích lũy.",
+                $"Thanh toán thành công!\n" +
+                $"Tổng tiền: {tongHoaDon:N0} VNĐ\n" +
+                $"Khách hàng nhận thêm {giaoDichMoi.DiemNhan} điểm tích lũy.",
                 "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            // Xóa trắng ô nhập để chuẩn bị cho lần bán hàng tiếp theo
-            cbChon.Text = string.Empty;
-            textBox1.Text = string.Empty;
+            // Xóa giỏ hàng và cập nhật hiển thị
+            gioHang.Clear();
+            HienThiGioHang();
             HienThiLichSu();
         }
 
-        
+        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Có thể thêm tính năng xóa dòng hoặc sửa sau này
+        }
+    }
+
+    /// <summary>
+    /// Class tạm thời để lưu chi tiết từng mặt hàng trong giỏ hàng
+    /// </summary>
+    public class ChiTietDonHang
+    {
+        public string TenThuoc { get; set; }
+        public int SoLuong { get; set; }
+        public decimal DonGia { get; set; }
+        public decimal ThanhTien { get; set; }
     }
 }
