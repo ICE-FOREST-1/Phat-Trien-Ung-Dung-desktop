@@ -1,4 +1,0 @@
-GIAM10|PhanTram|10
-GIAM20|PhanTram|20
-GIAM20K|SoTienCoDinh|20000
-GIAM50K|SoTienCoDinh|50000
