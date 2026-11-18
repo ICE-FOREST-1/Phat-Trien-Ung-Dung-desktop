@@ -1,0 +1,67 @@
+===================================================================================
+          HƯỚNG DẪN CÀI ĐẶT & PHỤC HỒI CƠ SỞ DỮ LIỆU CORE BANKING
+                      (Dành cho Giáo viên / Người chấm bài)
+===================================================================================
+
+Cơ sở dữ liệu: CoSoDuLieuCoreBanking
+Hệ quản trị CSDL: Microsoft SQL Server (2016, 2017, 2019, 2022, Express, Developer)
+Chuỗi kết nối mặc định: Server=localhost\SQLEXPRESS;Database=CoSoDuLieuCoreBanking;Trusted_Connection=True;TrustServerCertificate=True;
+
+Thư mục này cung cấp 2 CÁCH để Thầy/Cô dễ dàng đưa CSDL vào hệ thống:
+
+-----------------------------------------------------------------------------------
+CÁCH 1: CHẠY FILE SCRIPT SQL (KHUYÊN DÙNG - TƯƠNG THÍCH MỌI PHIÊN BẢN SQL SERVER)
+-----------------------------------------------------------------------------------
+Tệp tin: CoSoDuLieuCoreBanking_Full_Script.sql
+
+Ưu điểm: Tương thích 100% với bất kỳ phiên bản SQL Server nào (từ SQL Server 2016 đến
+2022, bản Express hay Developer đều chạy được ngay mà không bao giờ gặp lỗi lệch Version).
+
+Các bước thực hiện:
+1. Mở phần mềm SQL Server Management Studio (SSMS) hoặc Azure Data Studio.
+2. Kết nối tới máy chủ SQL Server của Thầy/Cô (ví dụ: localhost hoặc .\SQLEXPRESS).
+3. Kéo thả hoặc nhấn Ctrl + O để mở tệp tin:
+   E:\NganHang\database\CoSoDuLieuCoreBanking_Full_Script.sql
+4. Nhấn phím F5 (hoặc nút [Execute]) trên thanh công cụ.
+5. Thông báo ">>> ĐÃ TẠO TOÀN BỘ CƠ SỞ DỮ LIỆU CoSoDuLieuCoreBanking VÀ NẠP DỮ LIỆU THÀNH CÔNG! <<<"
+   xuất hiện là hoàn tất!
+
+-----------------------------------------------------------------------------------
+CÁCH 2: PHỤC HỒI (RESTORE) TỪ FILE BACKUP .BAK
+-----------------------------------------------------------------------------------
+Tệp tin: CoSoDuLieuCoreBanking.bak
+
+Các bước thực hiện trong SSMS:
+1. Mở SQL Server Management Studio (SSMS), kết nối tới SQL Server.
+2. Chuột phải vào mục "Databases" ở cây thư mục bên trái -> chọn "Restore Database...".
+3. Tại mục "Source", tích chọn "Device" -> bấm vào dấu ba chấm [...] bên phải.
+4. Chọn "Add" -> Duyệt tìm đến file:
+   E:\NganHang\database\CoSoDuLieuCoreBanking.bak
+5. Bấm OK -> Bấm OK lần nữa để hoàn tất quá trình Restore.
+
+-----------------------------------------------------------------------------------
+TÀI KHOẢN ĐĂNG NHẬP VÀO HỆ THỐNG
+-----------------------------------------------------------------------------------
+Mật khẩu mặc định cho tất cả tài khoản: 123456
+
+1. GIAO DỊCH VIÊN (Teller):
+   - Tên đăng nhập: teller  (hoặc tindung, aml)
+   - Mật khẩu: 123456
+   - Quyền hạn:
+     + Tra cứu Khách hàng 360° (hồ sơ định danh, lịch sử tài khoản).
+     + Mở tài khoản thanh toán mới (tự sinh số hoặc nhập số tùy chọn).
+     + Chuyển khoản nội bộ tức thì.
+     + Mở sổ tiết kiệm (trích tài khoản hoặc nộp tiền mặt tại quầy) & tất toán sổ.
+     + Lập hồ sơ vay vốn, tính toán phương án trả góp tín dụng & cho vay.
+     + Tra cứu nhật ký giao dịch, xem chính sách hạng hội viên VIP.
+     * Lưu ý: Giao dịch viên không xem Dashboard doanh số và không xem Phòng chống rửa tiền AML.
+
+2. QUẢN TRỊ VIÊN / LÃNH ĐẠO (Admin):
+   - Tên đăng nhập: admin
+   - Mật khẩu: 123456
+   - Quyền hạn: Toàn quyền quản trị toàn hệ thống.
+     + Xem toàn bộ Dashboard thời gian thực và biểu đồ doanh số 7 ngày.
+     + Phê duyệt & giải ngân các khoản vay vốn tín dụng.
+     + Quản lý giám sát phòng chống rửa tiền AML (duyệt an toàn hoặc đóng băng).
+     + Cài đặt hệ thống, đổi mật khẩu, phân quyền.
+===================================================================================

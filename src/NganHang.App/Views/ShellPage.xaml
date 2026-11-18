@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="NganHang.App.Views.ShellPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:h="using:NganHang.App.Helpers"
+    Background="Transparent">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <NavigationView x:Name="NavView"
+                        PaneDisplayMode="Left"
+                        IsBackButtonVisible="Collapsed"
+                        IsSettingsVisible="False"
+                        OpenPaneLength="272"
+                        IsPaneToggleButtonVisible="True"
+                        SelectionChanged="NavView_SelectionChanged">
+
+            <NavigationView.MenuItems>
+                <NavigationViewItem Content="Tổng quan" Tag="TongQuan" Visibility="{x:Bind ViewModel.XemTongQuan}">
+                    <NavigationViewItem.Icon><FontIcon Glyph="&#xE80F;" /></NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Khách hàng 360°" Tag="KhachHang" Visibility="{x:Bind ViewModel.XemKhachHang}">
+                    <NavigationViewItem.Icon><FontIcon Glyph="&#xE716;" /></NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItemHeader Content="Nghiệp vụ" Visibility="{x:Bind ViewModel.XemNhomNghiepVu}" />
+                <NavigationViewItem Content="Tài khoản thanh toán" Tag="TaiKhoan" Visibility="{x:Bind ViewModel.XemTaiKhoan}">
+                    <NavigationViewItem.Icon><FontIcon Glyph="&#xE8C7;" /></NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Chuyển khoản" Tag="ChuyenKhoan" Visibility="{x:Bind ViewModel.XemChuyenKhoan}">
+                    <NavigationViewItem.Icon><FontIcon Glyph="&#xE8AB;" /></NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Tiết kiệm" Tag="TietKiem" Visibility="{x:Bind ViewModel.XemTietKiem}">
+                    <NavigationViewItem.Icon><FontIcon Glyph="&#xE825;" /></NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Tín dụng &amp; Cho vay" Tag="TinDung" Visibility="{x:Bind ViewModel.XemTinDung}">
+                    <NavigationViewItem.Icon><FontIcon Glyph="&#xE8EF;" /></NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItemHeader Content="Giám sát &amp; Chính sách" />
+                <NavigationViewItem Content="Nhật ký giao dịch" Tag="NhatKy" Visibility="{x:Bind ViewModel.XemNhatKy}">
+                    <NavigationViewItem.Icon><FontIcon Glyph="&#xE81C;" /></NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Phòng chống rửa tiền" Tag="Aml" Visibility="{x:Bind ViewModel.XemAml}">
+                    <NavigationViewItem.Icon><FontIcon Glyph="&#xEA18;" /></NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Hạng hội viên" Tag="HangHoiVien" Visibility="{x:Bind ViewModel.XemHangHoiVien}">
+                    <NavigationViewItem.Icon><FontIcon Glyph="&#xE734;" /></NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.MenuItems>
+
+            <NavigationView.FooterMenuItems>
+                <NavigationViewItem Content="Cài đặt" Tag="CaiDat">
+                    <NavigationViewItem.Icon><FontIcon Glyph="&#xE713;" /></NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.FooterMenuItems>
+
+            <NavigationView.PaneFooter>
+                <Grid Margin="12,8,12,12" ColumnSpacing="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <PersonPicture Width="36" Height="36" Initials="{x:Bind h:Fmt.ChuCaiDau(ViewModel.HoTen)}" />
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="{x:Bind ViewModel.HoTen}" Style="{StaticResource BodyStrongTextBlockStyle}" TextTrimming="CharacterEllipsis" />
+                        <TextBlock Text="{x:Bind ViewModel.VaiTro}" Style="{StaticResource LabelStyle}" TextTrimming="CharacterEllipsis" />
+                    </StackPanel>
+                    <Button Grid.Column="2" Command="{x:Bind ViewModel.DangXuatCommand}" ToolTipService.ToolTip="Đăng xuất"
+                            Background="Transparent" BorderThickness="0" Padding="8">
+                        <FontIcon Glyph="&#xE7E8;" FontSize="16" />
+                    </Button>
+                </Grid>
+            </NavigationView.PaneFooter>
+
+            <Frame x:Name="ContentFrame" Padding="{StaticResource PagePadding}" />
+        </NavigationView>
+
+        <!-- Thanh trạng thái -->
+        <Border Grid.Row="1" Padding="16,6" BorderThickness="0,1,0,0"
+                BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+                Background="{ThemeResource LayerFillColorDefaultBrush}">
+            <StackPanel Orientation="Horizontal" Spacing="20">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <Ellipse Width="8" Height="8" VerticalAlignment="Center" Fill="{ThemeResource SuccessBrush}" Visibility="{x:Bind ViewModel.DaKetNoi, Mode=OneWay}" />
+                    <Ellipse Width="8" Height="8" VerticalAlignment="Center" Fill="{ThemeResource DangerBrush}" Visibility="{x:Bind h:Fmt.An(ViewModel.DaKetNoi), Mode=OneWay}" />
+                    <TextBlock Text="{x:Bind ViewModel.TrangThaiKetNoi, Mode=OneWay}" Style="{StaticResource LabelStyle}" />
+                </StackPanel>
+                <TextBlock Text="{x:Bind ViewModel.ChiNhanh}" Style="{StaticResource LabelStyle}" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>

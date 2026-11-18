@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Page x:ConnectionId='1'
+    x:Class="NganHang.App.Views.AccountsPage"
+    x:Name="ThisPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:m="using:NganHang.Core.Entities"
+    xmlns:h="using:NganHang.App.Helpers"
+    Background="Transparent">
+
+    <Grid RowSpacing="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Tiêu đề + nút mở tài khoản -->
+        <Grid Grid.Row="0">
+            <StackPanel>
+                <TextBlock Text="Quản lý tài khoản thanh toán" Style="{StaticResource PageTitleStyle}" />
+                <TextBlock Text="Danh sách tài khoản thanh toán, quản lý hạn mức thấu chi và khóa/mở khóa" Style="{StaticResource PageSubtitleStyle}" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10" HorizontalAlignment="Right" VerticalAlignment="Top">
+                <CheckBox x:ConnectionId='36' Content="Chỉ hiện tài khoản hoạt động"                                                                                                           />
+                <Button x:ConnectionId='37' Style="{StaticResource AccentButtonStyle}"
+                                                                          
+                                                                            >
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon Glyph="&#xE710;" FontSize="14" />
+                        <TextBlock Text="Mở tài khoản mới" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <InfoBar x:ConnectionId='2' Grid.Row="1"
+                                                                    
+                                                                         
+                                                                    />
+
+        <!-- Bảng danh sách hoặc Form mở tài khoản -->
+        <Grid Grid.Row="2">
+            <!-- 1. Form mở tài khoản mới -->
+            <Border x:ConnectionId='3' Style="{StaticResource CardStyle}"                                                             MaxWidth="620" HorizontalAlignment="Left">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Spacing="16">
+                        <TextBlock Text="Mở tài khoản thanh toán mới" Style="{StaticResource SectionTitleStyle}" />
+                        
+                        <!-- Lựa chọn: Khách hàng mới vs Đã có CIF -->
+                        <StackPanel Orientation="Horizontal" Spacing="24">
+                            <RadioButton x:ConnectionId='34' Content="Khách hàng mới"                                                            />
+                            <RadioButton x:ConnectionId='35' Content="Khách hàng đã có CIF"                                                                />
+                        </StackPanel>
+
+                        <!-- Khối thông tin khách hàng mới -->
+                        <StackPanel x:ConnectionId='16' Spacing="12"                                                            >
+                            <TextBox x:ConnectionId='28' Header="Họ và tên khách hàng *" PlaceholderText="vd: Nguyễn Văn An"
+                                                                                                                           />
+
+                            <Grid ColumnSpacing="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:ConnectionId='32' Grid.Column="0" Header="Số CCCD (12 chữ số) *" PlaceholderText="vd: 079201004821" MaxLength="12"
+                                                                                                                              />
+                                <TextBox x:ConnectionId='33' Grid.Column="1" Header="Số điện thoại (10 chữ số) *" PlaceholderText="vd: 0908123456" MaxLength="10"
+                                                                                                                             />
+                            </Grid>
+
+                            <Grid ColumnSpacing="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <CalendarDatePicker x:ConnectionId='30' Grid.Column="0" Header="Ngày sinh *" HorizontalAlignment="Stretch"
+                                                                                                        />
+                                <ComboBox x:ConnectionId='31' Grid.Column="1" Header="Giới tính *" HorizontalAlignment="Stretch"
+                                                                                           
+                                                                                                      />
+                            </Grid>
+
+                            <TextBox x:ConnectionId='29' Header="Địa chỉ thường trú *" PlaceholderText="vd: 128 Nguyễn Trãi, Quận 1, TP.HCM"
+                                                                                                                            />
+                        </StackPanel>
+
+                        <!-- Khối chọn khách hàng đã có CIF -->
+                        <StackPanel x:ConnectionId='17' Spacing="8"                                                                >
+                            <ComboBox x:ConnectionId='23' Header="Chọn khách hàng hiện hữu (CIF) *" HorizontalAlignment="Stretch"
+                                                                                                     
+                                                                                                  >
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate                         >
+                                        <StackPanel x:ConnectionId='25' Orientation="Horizontal" Spacing="10">
+                                            <TextBlock x:ConnectionId='26'                                FontWeight="SemiBold" />
+                                            <TextBlock x:ConnectionId='27'                       Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <!-- Ô chọn số tài khoản: tự nhập hoặc random -->
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Số tài khoản thanh toán *" Style="{StaticResource LabelStyle}" />
+                            <Grid ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:ConnectionId='21' PlaceholderText="vd: 19034589201999 (hoặc bấm Tạo ngẫu nhiên)"
+                                                                                                                                    />
+                                <Button x:ConnectionId='22' Grid.Column="1"                                                            ToolTipService.ToolTip="Phát sinh số tài khoản ngẫu nhiên">
+                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                        <FontIcon Glyph="&#xE72C;" FontSize="13" />
+                                        <TextBlock Text="Tạo ngẫu nhiên" />
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+                        </StackPanel>
+
+                        <NumberBox x:ConnectionId='18' Header="Số tiền nộp ban đầu (VND) *"
+                                                                                          
+                                   Minimum="0" SpinButtonPlacementMode="Hidden" />
+
+                        <StackPanel Orientation="Horizontal" Spacing="12" Margin="0,12,0,0">
+                            <Button x:ConnectionId='19' Content="Xác nhận mở tài khoản" Style="{StaticResource AccentButtonStyle}"                                                       />
+                            <Button x:ConnectionId='20' Content="Hủy bỏ"                                                   />
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+
+            <!-- 2. Danh sách tài khoản (có thanh cuộn ngang) -->
+            <Border x:ConnectionId='4' Style="{StaticResource CardStyle}"                                                                      >
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" HorizontalScrollMode="Enabled" VerticalScrollBarVisibility="Auto">
+                    <StackPanel MinWidth="1100" Spacing="12">
+                        <Border Style="{StaticResource TableHeaderBorderStyle}">
+                            <Grid ColumnSpacing="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="180" />
+                                    <ColumnDefinition Width="200" />
+                                    <ColumnDefinition Width="140" />
+                                    <ColumnDefinition Width="140" />
+                                    <ColumnDefinition Width="120" />
+                                    <ColumnDefinition Width="120" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Số tài khoản" Style="{StaticResource TableHeaderStyle}" />
+                                <TextBlock Grid.Column="1" Text="Chủ tài khoản" Style="{StaticResource TableHeaderStyle}" />
+                                <TextBlock Grid.Column="2" Text="Số dư hiện tại" Style="{StaticResource TableHeaderStyle}" HorizontalAlignment="Right" />
+                                <TextBlock Grid.Column="3" Text="Hạn mức thấu chi" Style="{StaticResource TableHeaderStyle}" HorizontalAlignment="Right" />
+                                <TextBlock Grid.Column="4" Text="Hạng tài khoản" Style="{StaticResource TableHeaderStyle}" />
+                                <TextBlock Grid.Column="5" Text="Trạng thái" Style="{StaticResource TableHeaderStyle}" />
+                                <TextBlock Grid.Column="6" Text="Thao tác" Style="{StaticResource TableHeaderStyle}" HorizontalAlignment="Right" />
+                            </Grid>
+                        </Border>
+
+                        <ListView x:ConnectionId='5'                                                        SelectionMode="None">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem" BasedOn="{StaticResource TableListViewItemStyle}" />
+                            </ListView.ItemContainerStyle>
+                            <ListView.ItemTemplate>
+                                <DataTemplate                                 >
+                                    <Grid x:ConnectionId='7' ColumnSpacing="12" Margin="0,6">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="180" />
+                                            <ColumnDefinition Width="200" />
+                                            <ColumnDefinition Width="140" />
+                                            <ColumnDefinition Width="140" />
+                                            <ColumnDefinition Width="120" />
+                                            <ColumnDefinition Width="120" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock x:ConnectionId='8' Grid.Column="0"                            Style="{StaticResource TableCellStyle}" FontWeight="SemiBold" />
+                                        <TextBlock x:ConnectionId='9' Grid.Column="1"                                          Style="{StaticResource TableCellStyle}" />
+                                        <TextBlock x:ConnectionId='10' Grid.Column="2"                                         Style="{StaticResource TableCellStyle}" FontWeight="Bold" Foreground="{ThemeResource BrandBrush}" HorizontalAlignment="Right" />
+                                        <TextBlock x:ConnectionId='11' Grid.Column="3"                                            Style="{StaticResource TableCellStyle}" HorizontalAlignment="Right" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                                        <Border x:ConnectionId='12' Grid.Column="4" Style="{StaticResource BadgeBorderStyle}"                                                  >
+                                            <TextBlock x:ConnectionId='15'                                        Foreground="White" Style="{StaticResource BadgeTextStyle}" />
+                                        </Border>
+                                        <Border Grid.Column="5" Style="{StaticResource BadgeBorderStyle}">
+                                            <TextBlock x:ConnectionId='14'                                                          Style="{StaticResource BadgeTextStyle}"                                                                          />
+                                        </Border>
+                                        <Button x:ConnectionId='13' Grid.Column="6" HorizontalAlignment="Right"
+                                                Command="{Binding ElementName=ThisPage, Path=ViewModel.KhoaHoacMoKhoaCommand}"
+                                                                           >
+                                            <TextBlock Text="Đổi trạng thái" FontSize="11" />
+                                        </Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>
+

@@ -1,0 +1,16 @@
+App.xbf
+MainWindow.xbf
+Themes\Colors.xbf
+Themes\Styles.xbf
+Views\AccountsPage.xbf
+Views\AmlPage.xbf
+Views\CustomersPage.xbf
+Views\DashboardPage.xbf
+Views\HistoryPage.xbf
+Views\LoansPage.xbf
+Views\LoginPage.xbf
+Views\SavingsPage.xbf
+Views\SettingsPage.xbf
+Views\ShellPage.xbf
+Views\TiersPage.xbf
+Views\TransferPage.xbf

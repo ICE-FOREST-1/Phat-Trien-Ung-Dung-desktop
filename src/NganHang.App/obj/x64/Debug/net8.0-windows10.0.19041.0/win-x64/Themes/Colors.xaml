@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+    BẢNG MÀU TOÀN ỨNG DỤNG
+    Muốn đổi màu thương hiệu: chỉ cần sửa các giá trị Color bên dưới.
+    Màu accent hệ thống (nút chính, thanh chọn, toggle…) dùng chung màu thương hiệu.
+-->
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Màu thương hiệu (đỏ Techcombank) -->
+    <Color x:Key="SystemAccentColor">#E11D48</Color>
+    <Color x:Key="SystemAccentColorLight1">#F43F5E</Color>
+    <Color x:Key="SystemAccentColorLight2">#FB7185</Color>
+    <Color x:Key="SystemAccentColorLight3">#FDA4AF</Color>
+    <Color x:Key="SystemAccentColorDark1">#BE123C</Color>
+    <Color x:Key="SystemAccentColorDark2">#9F1239</Color>
+    <Color x:Key="SystemAccentColorDark3">#881337</Color>
+
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="BrandBrush" Color="#E11D48" />
+            <SolidColorBrush x:Key="SuccessBrush" Color="#047857" />
+            <SolidColorBrush x:Key="WarningBrush" Color="#B45309" />
+            <SolidColorBrush x:Key="DangerBrush" Color="#B91C1C" />
+            <SolidColorBrush x:Key="InfoBrush" Color="#1D4ED8" />
+            <SolidColorBrush x:Key="KpiIconBackgroundBrush" Color="#FFE4E6" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+            <SolidColorBrush x:Key="BrandBrush" Color="#FB7185" />
+            <SolidColorBrush x:Key="SuccessBrush" Color="#34D399" />
+            <SolidColorBrush x:Key="WarningBrush" Color="#FBBF24" />
+            <SolidColorBrush x:Key="DangerBrush" Color="#F87171" />
+            <SolidColorBrush x:Key="InfoBrush" Color="#60A5FA" />
+            <SolidColorBrush x:Key="KpiIconBackgroundBrush" Color="#4C0519" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="HighContrast">
+            <SolidColorBrush x:Key="BrandBrush" Color="{ThemeResource SystemColorHighlightColor}" />
+            <SolidColorBrush x:Key="SuccessBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
+            <SolidColorBrush x:Key="WarningBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
+            <SolidColorBrush x:Key="DangerBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
+            <SolidColorBrush x:Key="InfoBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
+            <SolidColorBrush x:Key="KpiIconBackgroundBrush" Color="{ThemeResource SystemColorWindowColor}" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>
+

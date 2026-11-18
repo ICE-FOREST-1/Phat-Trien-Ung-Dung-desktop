@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="NganHang.App.Views.DashboardPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:NganHang.App.ViewModels"
+    xmlns:m="using:NganHang.Core.Entities"
+    xmlns:h="using:NganHang.App.Helpers"
+    Background="Transparent">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Spacing="20">
+            <!-- Tiêu đề + nút làm mới -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="Tổng quan hệ thống" Style="{StaticResource PageTitleStyle}" />
+                    <TextBlock Text="Chỉ số tài chính thời gian thực từ cơ sở dữ liệu SQL Server" Style="{StaticResource PageSubtitleStyle}" />
+                </StackPanel>
+                <Button Grid.Column="1" Command="{x:Bind ViewModel.TaiDuLieuCommand}" VerticalAlignment="Top">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon Glyph="&#xE72C;" FontSize="14" />
+                        <TextBlock Text="Làm mới" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+
+            <InfoBar IsOpen="{x:Bind ViewModel.CoThongBao, Mode=TwoWay}"
+                     Severity="{x:Bind ViewModel.MucDoThongBao, Mode=OneWay}"
+                     Message="{x:Bind ViewModel.ThongBao, Mode=OneWay}" />
+
+            <!-- Hàng 4 thẻ KPI chính -->
+            <Grid ColumnSpacing="16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Style="{StaticResource CardStyle}">
+                    <StackPanel Spacing="4">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE8C7;" Foreground="{ThemeResource BrandBrush}" FontSize="16" />
+                            <TextBlock Text="Tổng tiền gửi thanh toán" Style="{StaticResource LabelStyle}" />
+                        </StackPanel>
+                        <TextBlock Text="{x:Bind h:Fmt.TienN(ViewModel.DuLieu.TongSoDuThanhToan), Mode=OneWay}" Style="{StaticResource KpiValueStyle}" />
+                        <TextBlock Text="{x:Bind h:Fmt.So(ViewModel.DuLieu.SoTaiKhoan), Mode=OneWay}" Style="{StaticResource LabelStyle}" Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="1" Style="{StaticResource CardStyle}">
+                    <StackPanel Spacing="4">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE825;" Foreground="{ThemeResource SuccessBrush}" FontSize="16" />
+                            <TextBlock Text="Tổng tiền gửi tiết kiệm" Style="{StaticResource LabelStyle}" />
+                        </StackPanel>
+                        <TextBlock Text="{x:Bind h:Fmt.TienN(ViewModel.DuLieu.TongTienGuiTietKiem), Mode=OneWay}" Style="{StaticResource KpiValueStyle}" />
+                        <TextBlock Text="Sổ đang hoạt động" Style="{StaticResource LabelStyle}" Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="2" Style="{StaticResource CardStyle}">
+                    <StackPanel Spacing="4">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE8EF;" Foreground="{ThemeResource WarningBrush}" FontSize="16" />
+                            <TextBlock Text="Tổng dư nợ cho vay" Style="{StaticResource LabelStyle}" />
+                        </StackPanel>
+                        <TextBlock Text="{x:Bind h:Fmt.TienN(ViewModel.DuLieu.TongDuNoChoVay), Mode=OneWay}" Style="{StaticResource KpiValueStyle}" />
+                        <TextBlock Text="Dư nợ gốc đang vay" Style="{StaticResource LabelStyle}" Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="3" Style="{StaticResource CardStyle}">
+                    <StackPanel Spacing="4">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE716;" Foreground="{ThemeResource InfoBrush}" FontSize="16" />
+                            <TextBlock Text="Khách hàng (CIF)" Style="{StaticResource LabelStyle}" />
+                        </StackPanel>
+                        <TextBlock Text="{x:Bind h:Fmt.So(ViewModel.DuLieu.SoKhachHang), Mode=OneWay}" Style="{StaticResource KpiValueStyle}" />
+                        <TextBlock Text="Đã đăng ký hệ thống" Style="{StaticResource LabelStyle}" Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Hàng thông báo cần xử lý -->
+            <Grid ColumnSpacing="16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Style="{StaticResource CardStyle}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Cảnh báo AML chờ duyệt" Style="{StaticResource LabelStyle}" />
+                            <TextBlock Text="{x:Bind h:Fmt.So(ViewModel.DuLieu.SoCanhBaoAmlCho), Mode=OneWay}" Style="{StaticResource SubtitleTextBlockStyle}" Foreground="{ThemeResource DangerBrush}" />
+                        </StackPanel>
+                        <Button Grid.Column="1" VerticalAlignment="Center" Content="Xem AML" Command="{x:Bind ViewModel.DieuHuongCommand}" CommandParameter="Aml" />
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="1" Style="{StaticResource CardStyle}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Hồ sơ vay chờ phê duyệt" Style="{StaticResource LabelStyle}" />
+                            <TextBlock Text="{x:Bind h:Fmt.So(ViewModel.DuLieu.SoHoSoVayCho), Mode=OneWay}" Style="{StaticResource SubtitleTextBlockStyle}" Foreground="{ThemeResource WarningBrush}" />
+                        </StackPanel>
+                        <Button Grid.Column="1" VerticalAlignment="Center" Content="Xem tín dụng" Command="{x:Bind ViewModel.DieuHuongCommand}" CommandParameter="TinDung" />
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="2" Style="{StaticResource CardStyle}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Giao dịch hôm nay" Style="{StaticResource LabelStyle}" />
+                            <TextBlock Text="{x:Bind h:Fmt.So(ViewModel.DuLieu.SoGiaoDichHomNay), Mode=OneWay}" Style="{StaticResource SubtitleTextBlockStyle}" />
+                        </StackPanel>
+                        <Button Grid.Column="1" VerticalAlignment="Center" Content="Xem nhật ký" Command="{x:Bind ViewModel.DieuHuongCommand}" CommandParameter="NhatKy" />
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- Biểu đồ doanh số 7 ngày thuần WinUI 3 -->
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel Spacing="16">
+                    <Grid>
+                        <StackPanel>
+                            <TextBlock Text="Doanh số giao dịch 7 ngày gần nhất" Style="{StaticResource SectionTitleStyle}" />
+                            <TextBlock Text="{x:Bind ViewModel.TongDoanhSo7Ngay, Mode=OneWay}" Style="{StaticResource SubtitleTextBlockStyle}" Foreground="{ThemeResource BrandBrush}" />
+                        </StackPanel>
+                        <TextBlock Text="Đơn vị: triệu VNĐ" Style="{StaticResource LabelStyle}" HorizontalAlignment="Right" VerticalAlignment="Top" />
+                    </Grid>
+
+                    <ItemsControl ItemsSource="{x:Bind ViewModel.CacCotDoanhSo, Mode=OneWay}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="24" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="vm:CotDoanhSo">
+                                <StackPanel Spacing="8" HorizontalAlignment="Center" Width="72" ToolTipService.ToolTip="{x:Bind ChiTiet}">
+                                    <TextBlock Text="{x:Bind DoanhSoHienThi}" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Center" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                                    <!-- Khung cột biểu đồ -->
+                                    <Grid Height="150" VerticalAlignment="Bottom">
+                                        <Border Width="36"
+                                                Height="{x:Bind ChieuCao}"
+                                                VerticalAlignment="Bottom"
+                                                CornerRadius="6,6,0,0"
+                                                Background="{ThemeResource BrandBrush}" />
+                                    </Grid>
+                                    <TextBlock Text="{x:Bind Ngay}" Style="{StaticResource BodyStrongTextBlockStyle}" HorizontalAlignment="Center" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <!-- Giao dịch gần đây -->
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel Spacing="12">
+                    <Grid>
+                        <TextBlock Text="Giao dịch mới nhất" Style="{StaticResource SectionTitleStyle}" />
+                        <HyperlinkButton Content="Xem tất cả nhật ký ›" HorizontalAlignment="Right" Command="{x:Bind ViewModel.DieuHuongCommand}" CommandParameter="NhatKy" />
+                    </Grid>
+
+                    <Border Style="{StaticResource TableHeaderBorderStyle}">
+                        <Grid ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="160" />
+                                <ColumnDefinition Width="180" />
+                                <ColumnDefinition Width="180" />
+                                <ColumnDefinition Width="160" />
+                                <ColumnDefinition Width="140" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="110" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Mã chứng từ" Style="{StaticResource TableHeaderStyle}" />
+                            <TextBlock Grid.Column="1" Text="Người gửi" Style="{StaticResource TableHeaderStyle}" />
+                            <TextBlock Grid.Column="2" Text="Người nhận" Style="{StaticResource TableHeaderStyle}" />
+                            <TextBlock Grid.Column="3" Text="Loại GD" Style="{StaticResource TableHeaderStyle}" />
+                            <TextBlock Grid.Column="4" Text="Số tiền" Style="{StaticResource TableHeaderStyle}" HorizontalAlignment="Right" />
+                            <TextBlock Grid.Column="5" Text="Nội dung" Style="{StaticResource TableHeaderStyle}" />
+                            <TextBlock Grid.Column="6" Text="Thời gian" Style="{StaticResource TableHeaderStyle}" HorizontalAlignment="Right" />
+                        </Grid>
+                    </Border>
+
+                    <ListView ItemsSource="{x:Bind ViewModel.GiaoDichGanDay, Mode=OneWay}" SelectionMode="None">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem" BasedOn="{StaticResource TableListViewItemStyle}" />
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="m:GiaoDich">
+                                <Grid ColumnSpacing="12" Margin="0,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="160" />
+                                        <ColumnDefinition Width="180" />
+                                        <ColumnDefinition Width="180" />
+                                        <ColumnDefinition Width="160" />
+                                        <ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="110" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="{x:Bind MaChungTu}" Style="{StaticResource TableCellStyle}" FontWeight="SemiBold" />
+                                    <TextBlock Grid.Column="1" Text="{x:Bind TenNguoiGui}" Style="{StaticResource TableCellStyle}" />
+                                    <TextBlock Grid.Column="2" Text="{x:Bind TenNguoiNhan}" Style="{StaticResource TableCellStyle}" />
+                                    <TextBlock Grid.Column="3" Text="{x:Bind h:Fmt.Ma(LoaiGiaoDich)}" Style="{StaticResource TableCellStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                                    <TextBlock Grid.Column="4" Text="{x:Bind h:Fmt.Tien(SoTienGiaoDich)}" Style="{StaticResource TableCellStyle}" FontWeight="SemiBold" HorizontalAlignment="Right" />
+                                    <TextBlock Grid.Column="5" Text="{x:Bind NoiDungChuyenKhoan}" Style="{StaticResource TableCellStyle}" />
+                                    <TextBlock Grid.Column="6" Text="{x:Bind h:Fmt.NgayGio(ThoiGianGiaoDich)}" Style="{StaticResource TableCellStyle}" HorizontalAlignment="Right" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

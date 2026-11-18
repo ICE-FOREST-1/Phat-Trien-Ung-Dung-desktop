@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Page x:ConnectionId='1'
+    x:Class="NganHang.App.Views.TiersPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:p="using:NganHang.Core.Policies"
+    xmlns:h="using:NganHang.App.Helpers"
+    Background="Transparent">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Spacing="20">
+            <TextBlock Text="Chính sách phân hạng hội viên VIP" Style="{StaticResource PageTitleStyle}" />
+            <TextBlock Text="Hệ thống tự động nâng hạng theo doanh số giao dịch (trigger trg_TuDongThangHangHoiVien) và cấp hạn mức thấu chi tương ứng" Style="{StaticResource PageSubtitleStyle}" />
+
+            <!-- Danh sách 5 thẻ hạng hội viên -->
+            <GridView x:ConnectionId='2'                                               SelectionMode="None">
+                <GridView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="5" />
+                    </ItemsPanelTemplate>
+                </GridView.ItemsPanel>
+                <GridView.ItemTemplate>
+                    <DataTemplate                            >
+                        <Border x:ConnectionId='4' Style="{StaticResource CardStyle}" Width="240" Margin="0,0,16,16">
+                            <StackPanel Spacing="14">
+                                <Border x:ConnectionId='5' Style="{StaticResource BadgeBorderStyle}"                                        >
+                                    <TextBlock x:ConnectionId='10'                     Foreground="White" Style="{StaticResource BadgeTextStyle}" FontSize="13" />
+                                </Border>
+
+                                <StackPanel Spacing="2">
+                                    <TextBlock Text="Doanh số tích lũy" Style="{StaticResource LabelStyle}" />
+                                    <TextBlock x:ConnectionId='9'                                           Style="{StaticResource BodyStrongTextBlockStyle}" />
+                                </StackPanel>
+
+                                <StackPanel Spacing="2">
+                                    <TextBlock Text="Hạn mức thấu chi cấp" Style="{StaticResource LabelStyle}" />
+                                    <TextBlock x:ConnectionId='8'                                           Style="{StaticResource BodyStrongTextBlockStyle}" Foreground="{ThemeResource BrandBrush}" />
+                                </StackPanel>
+
+                                <StackPanel Spacing="2">
+                                    <TextBlock Text="Phí chuyển khoản" Style="{StaticResource LabelStyle}" />
+                                    <TextBlock x:ConnectionId='7'                                            Style="{StaticResource BodyStrongTextBlockStyle}" Foreground="{ThemeResource SuccessBrush}" />
+                                </StackPanel>
+
+                                <MenuFlyoutSeparator />
+
+                                <TextBlock x:ConnectionId='6'                       Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="Wrap" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+
+            <!-- Bảng so sánh chi tiết -->
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Quy tắc vận hành tự động" Style="{StaticResource SectionTitleStyle}" />
+                    <TextBlock Text="1. Khi giao dịch chuyển khoản thành công, trigger trg_TuDongThangHangHoiVien cộng dồn số tiền vào DiemTichLuyChiTieu của khách hàng."
+                               Style="{StaticResource LabelStyle}" />
+                    <TextBlock Text="2. Nếu tổng tích lũy đạt mốc hạng mới, hệ thống tự động cập nhật HangHoiVien trên bảng KhachHang và đồng bộ sang TaiKhoanThanhToan."
+                               Style="{StaticResource LabelStyle}" />
+                    <TextBlock Text="3. Hạn mức thấu chi (HanMucThauChi) và cờ ChoPhepThauChi tự động kích hoạt ngay lập tức mà không cần thủ tục giấy tờ."
+                               Style="{StaticResource LabelStyle}" />
+                    <TextBlock Text="4. Khách hàng đạt hạng Vàng trở lên được miễn phí 100% phí chuyển khoản nội bộ qua thủ tục sp_ChuyenKhoanNoiBo."
+                               Style="{StaticResource LabelStyle}" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</Page>
+

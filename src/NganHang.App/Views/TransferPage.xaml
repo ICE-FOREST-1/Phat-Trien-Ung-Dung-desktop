@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="NganHang.App.Views.TransferPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:m="using:NganHang.Core.Entities"
+    xmlns:h="using:NganHang.App.Helpers"
+    Background="Transparent">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Spacing="16">
+            <TextBlock Text="Giao dịch chuyển khoản" Style="{StaticResource PageTitleStyle}" />
+            <TextBlock Text="Hạch toán ghi nợ tài khoản nguồn, ghi có tài khoản đích tức thì, tuân thủ kiểm soát rủi ro AML" Style="{StaticResource PageSubtitleStyle}" />
+
+            <InfoBar IsOpen="{x:Bind ViewModel.CoThongBao, Mode=TwoWay}"
+                     Severity="{x:Bind ViewModel.MucDoThongBao, Mode=OneWay}"
+                     Message="{x:Bind ViewModel.ThongBao, Mode=OneWay}" />
+
+            <!-- Lưới 2 cột -->
+            <Grid ColumnSpacing="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="520" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Cột trái: Form chuyển khoản -->
+                <Border Style="{StaticResource CardStyle}">
+                    <StackPanel Spacing="16">
+                        <TextBlock Text="Thông tin lệnh chuyển khoản" Style="{StaticResource SectionTitleStyle}" />
+
+                        <!-- Tài khoản nguồn -->
+                        <ComboBox Header="Tài khoản nguồn *" HorizontalAlignment="Stretch"
+                                  ItemsSource="{x:Bind ViewModel.DanhSachTaiKhoanNguon, Mode=OneWay}"
+                                  SelectedItem="{x:Bind ViewModel.TaiKhoanNguon, Mode=TwoWay}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate x:DataType="m:TaiKhoanThanhToan">
+                                    <Grid ColumnSpacing="12">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="150" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="140" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{x:Bind SoTaiKhoan}" FontWeight="SemiBold" />
+                                        <TextBlock Grid.Column="1" Text="{x:Bind KhachHang.HoTenKhachHang}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Grid.Column="2" Text="{x:Bind h:Fmt.Tien(SoDuHienTai)}" FontWeight="Bold" Foreground="{ThemeResource BrandBrush}" HorizontalAlignment="Right" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+
+                        <!-- Tài khoản thụ hưởng -->
+                        <Grid ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox Header="Số tài khoản thụ hưởng *" PlaceholderText="vd: 19034589201999"
+                                     Text="{x:Bind ViewModel.SoTkDich, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <Button Grid.Column="1" VerticalAlignment="Bottom" Content="Tra cứu" Command="{x:Bind ViewModel.TraCuuNguoiNhanCommand}" />
+                        </Grid>
+
+                        <!-- Tên người nhận hiển thị -->
+                        <StackPanel Spacing="2" Visibility="{x:Bind h:Fmt.HienNeuCo(ViewModel.TenNguoiNhan), Mode=OneWay}">
+                            <TextBlock Text="Chủ tài khoản thụ hưởng" Style="{StaticResource LabelStyle}" />
+                            <TextBlock Text="{x:Bind ViewModel.TenNguoiNhan, Mode=OneWay}" Style="{StaticResource ValueStyle}" Foreground="{ThemeResource SuccessBrush}" />
+                        </StackPanel>
+
+                        <!-- Số tiền chuyển -->
+                        <NumberBox Header="Số tiền chuyển (VND) *"
+                                   Value="{x:Bind ViewModel.SoTien, Mode=TwoWay}"
+                                   Minimum="1" SpinButtonPlacementMode="Hidden" />
+
+                        <!-- Nút chọn nhanh số tiền -->
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Button Content="10 triệu" Click="QuickAmount_Click" Tag="10000000" />
+                            <Button Content="50 triệu" Click="QuickAmount_Click" Tag="50000000" />
+                            <Button Content="100 triệu" Click="QuickAmount_Click" Tag="100000000" />
+                            <Button Content="500 triệu" Click="QuickAmount_Click" Tag="500000000" />
+                        </StackPanel>
+
+                        <!-- Nội dung chuyển khoản -->
+                        <TextBox Header="Nội dung giao dịch *" PlaceholderText="vd: Thanh toan tien mua nha"
+                                 Text="{x:Bind ViewModel.NoiDung, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <!-- Nút xác nhận -->
+                        <Button Content="Thực hiện chuyển khoản" Style="{StaticResource AccentButtonStyle}"
+                                HorizontalAlignment="Stretch" Height="40" Margin="0,12,0,0"
+                                Command="{x:Bind ViewModel.ThucHienChuyenKhoanCommand}" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Cột phải: Tóm tắt & Cảnh báo AML -->
+                <StackPanel Grid.Column="1" Spacing="16">
+                    <Border Style="{StaticResource CardStyle}">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="Chi tiết giao dịch dự kiến" Style="{StaticResource SectionTitleStyle}" />
+
+                            <Grid RowSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Text="Người chuyển" Style="{StaticResource LabelStyle}" />
+                                <TextBlock Grid.Column="1" Text="{x:Bind ViewModel.TaiKhoanNguon.KhachHang.HoTenKhachHang, Mode=OneWay}" Style="{StaticResource ValueStyle}" />
+
+                                <TextBlock Grid.Row="1" Text="Số dư hiện có" Style="{StaticResource LabelStyle}" />
+                                <TextBlock Grid.Row="1" Grid.Column="1" Text="{x:Bind h:Fmt.TienN(ViewModel.TaiKhoanNguon.SoDuHienTai), Mode=OneWay}" Style="{StaticResource ValueStyle}" />
+
+                                <TextBlock Grid.Row="2" Text="Phí giao dịch" Style="{StaticResource LabelStyle}" />
+                                <TextBlock Grid.Row="2" Grid.Column="1" Text="{x:Bind h:Fmt.Tien(ViewModel.PhiDuKien), Mode=OneWay}" Style="{StaticResource ValueStyle}" />
+
+                                <TextBlock Grid.Row="3" Text="Hạng hội viên áp dụng" Style="{StaticResource LabelStyle}" />
+                                <Border Grid.Row="3" Grid.Column="1" Style="{StaticResource BadgeBorderStyle}" Background="{x:Bind h:Fmt.MauHang(ViewModel.TaiKhoanNguon.HangTaiKhoan), Mode=OneWay}">
+                                    <TextBlock Text="{x:Bind h:Fmt.Ma(ViewModel.TaiKhoanNguon.HangTaiKhoan), Mode=OneWay}" Foreground="White" Style="{StaticResource BadgeTextStyle}" />
+                                </Border>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Thẻ cảnh báo AML khi chuyển >= 400 triệu -->
+                    <Border Style="{StaticResource CardStyle}" BorderBrush="{ThemeResource DangerBrush}" Visibility="{x:Bind ViewModel.CanhBaoAml, Mode=OneWay}">
+                        <StackPanel Spacing="8">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon Glyph="&#xE7BA;" Foreground="{ThemeResource DangerBrush}" FontSize="18" />
+                                <TextBlock Text="CẢNH BÁO RỦI RO AML" Style="{StaticResource BodyStrongTextBlockStyle}" Foreground="{ThemeResource DangerBrush}" />
+                            </StackPanel>
+                            <TextBlock Text="Giao dịch này có giá trị từ 400.000.000 VNĐ trở lên, sẽ tự động kích hoạt trigger AML trong cơ sở dữ liệu và yêu cầu cán bộ kiểm soát rủi ro phê duyệt theo quy định của Ngân hàng Nhà nước."
+                                       Style="{StaticResource LabelStyle}" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

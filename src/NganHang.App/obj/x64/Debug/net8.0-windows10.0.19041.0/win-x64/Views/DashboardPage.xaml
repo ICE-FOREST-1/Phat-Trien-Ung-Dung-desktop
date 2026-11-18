@@ -1,0 +1,238 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Page x:ConnectionId='1'
+    x:Class="NganHang.App.Views.DashboardPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:NganHang.App.ViewModels"
+    xmlns:m="using:NganHang.Core.Entities"
+    xmlns:h="using:NganHang.App.Helpers"
+    Background="Transparent">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Spacing="20">
+            <!-- Tiêu đề + nút làm mới -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="Tổng quan hệ thống" Style="{StaticResource PageTitleStyle}" />
+                    <TextBlock Text="Chỉ số tài chính thời gian thực từ cơ sở dữ liệu SQL Server" Style="{StaticResource PageSubtitleStyle}" />
+                </StackPanel>
+                <Button x:ConnectionId='32' Grid.Column="1"                                               VerticalAlignment="Top">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon Glyph="&#xE72C;" FontSize="14" />
+                        <TextBlock Text="Làm mới" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+
+            <InfoBar x:ConnectionId='2'                                                    
+                                                                             
+                                                                        />
+
+            <!-- Hàng 4 thẻ KPI chính -->
+            <Grid ColumnSpacing="16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Style="{StaticResource CardStyle}">
+                    <StackPanel Spacing="4">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE8C7;" Foreground="{ThemeResource BrandBrush}" FontSize="16" />
+                            <TextBlock Text="Tổng tiền gửi thanh toán" Style="{StaticResource LabelStyle}" />
+                        </StackPanel>
+                        <TextBlock x:ConnectionId='30'                                                                              Style="{StaticResource KpiValueStyle}" />
+                        <TextBlock x:ConnectionId='31'                                                                    Style="{StaticResource LabelStyle}" Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="1" Style="{StaticResource CardStyle}">
+                    <StackPanel Spacing="4">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE825;" Foreground="{ThemeResource SuccessBrush}" FontSize="16" />
+                            <TextBlock Text="Tổng tiền gửi tiết kiệm" Style="{StaticResource LabelStyle}" />
+                        </StackPanel>
+                        <TextBlock x:ConnectionId='29'                                                                                Style="{StaticResource KpiValueStyle}" />
+                        <TextBlock Text="Sổ đang hoạt động" Style="{StaticResource LabelStyle}" Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="2" Style="{StaticResource CardStyle}">
+                    <StackPanel Spacing="4">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE8EF;" Foreground="{ThemeResource WarningBrush}" FontSize="16" />
+                            <TextBlock Text="Tổng dư nợ cho vay" Style="{StaticResource LabelStyle}" />
+                        </StackPanel>
+                        <TextBlock x:ConnectionId='28'                                                                           Style="{StaticResource KpiValueStyle}" />
+                        <TextBlock Text="Dư nợ gốc đang vay" Style="{StaticResource LabelStyle}" Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="3" Style="{StaticResource CardStyle}">
+                    <StackPanel Spacing="4">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE716;" Foreground="{ThemeResource InfoBrush}" FontSize="16" />
+                            <TextBlock Text="Khách hàng (CIF)" Style="{StaticResource LabelStyle}" />
+                        </StackPanel>
+                        <TextBlock x:ConnectionId='27'                                                                     Style="{StaticResource KpiValueStyle}" />
+                        <TextBlock Text="Đã đăng ký hệ thống" Style="{StaticResource LabelStyle}" Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Hàng thông báo cần xử lý -->
+            <Grid ColumnSpacing="16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Style="{StaticResource CardStyle}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Cảnh báo AML chờ duyệt" Style="{StaticResource LabelStyle}" />
+                            <TextBlock x:ConnectionId='26'                                                                         Style="{StaticResource SubtitleTextBlockStyle}" Foreground="{ThemeResource DangerBrush}" />
+                        </StackPanel>
+                        <Button x:ConnectionId='25' Grid.Column="1" VerticalAlignment="Center" Content="Xem AML"                                               CommandParameter="Aml" />
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="1" Style="{StaticResource CardStyle}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Hồ sơ vay chờ phê duyệt" Style="{StaticResource LabelStyle}" />
+                            <TextBlock x:ConnectionId='24'                                                                      Style="{StaticResource SubtitleTextBlockStyle}" Foreground="{ThemeResource WarningBrush}" />
+                        </StackPanel>
+                        <Button x:ConnectionId='23' Grid.Column="1" VerticalAlignment="Center" Content="Xem tín dụng"                                               CommandParameter="TinDung" />
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="2" Style="{StaticResource CardStyle}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Giao dịch hôm nay" Style="{StaticResource LabelStyle}" />
+                            <TextBlock x:ConnectionId='22'                                                                          Style="{StaticResource SubtitleTextBlockStyle}" />
+                        </StackPanel>
+                        <Button x:ConnectionId='21' Grid.Column="1" VerticalAlignment="Center" Content="Xem nhật ký"                                               CommandParameter="NhatKy" />
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- Biểu đồ doanh số 7 ngày thuần WinUI 3 -->
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel Spacing="16">
+                    <Grid>
+                        <StackPanel>
+                            <TextBlock Text="Doanh số giao dịch 7 ngày gần nhất" Style="{StaticResource SectionTitleStyle}" />
+                            <TextBlock x:ConnectionId='20'                                                         Style="{StaticResource SubtitleTextBlockStyle}" Foreground="{ThemeResource BrandBrush}" />
+                        </StackPanel>
+                        <TextBlock Text="Đơn vị: triệu VNĐ" Style="{StaticResource LabelStyle}" HorizontalAlignment="Right" VerticalAlignment="Top" />
+                    </Grid>
+
+                    <ItemsControl x:ConnectionId='14'                                                            >
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="24" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate                           >
+                                <StackPanel x:ConnectionId='16' Spacing="8" HorizontalAlignment="Center" Width="72"                                          >
+                                    <TextBlock x:ConnectionId='17'                                Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Center" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                                    <!-- Khung cột biểu đồ -->
+                                    <Grid Height="150" VerticalAlignment="Bottom">
+                                        <Border x:ConnectionId='19' Width="36"
+                                                                          
+                                                VerticalAlignment="Bottom"
+                                                CornerRadius="6,6,0,0"
+                                                Background="{ThemeResource BrandBrush}" />
+                                    </Grid>
+                                    <TextBlock x:ConnectionId='18'                      Style="{StaticResource BodyStrongTextBlockStyle}" HorizontalAlignment="Center" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <!-- Giao dịch gần đây -->
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel Spacing="12">
+                    <Grid>
+                        <TextBlock Text="Giao dịch mới nhất" Style="{StaticResource SectionTitleStyle}" />
+                        <HyperlinkButton x:ConnectionId='13' Content="Xem tất cả nhật ký ›" HorizontalAlignment="Right"                                               CommandParameter="NhatKy" />
+                    </Grid>
+
+                    <Border Style="{StaticResource TableHeaderBorderStyle}">
+                        <Grid ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="160" />
+                                <ColumnDefinition Width="180" />
+                                <ColumnDefinition Width="180" />
+                                <ColumnDefinition Width="160" />
+                                <ColumnDefinition Width="140" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="110" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Mã chứng từ" Style="{StaticResource TableHeaderStyle}" />
+                            <TextBlock Grid.Column="1" Text="Người gửi" Style="{StaticResource TableHeaderStyle}" />
+                            <TextBlock Grid.Column="2" Text="Người nhận" Style="{StaticResource TableHeaderStyle}" />
+                            <TextBlock Grid.Column="3" Text="Loại GD" Style="{StaticResource TableHeaderStyle}" />
+                            <TextBlock Grid.Column="4" Text="Số tiền" Style="{StaticResource TableHeaderStyle}" HorizontalAlignment="Right" />
+                            <TextBlock Grid.Column="5" Text="Nội dung" Style="{StaticResource TableHeaderStyle}" />
+                            <TextBlock Grid.Column="6" Text="Thời gian" Style="{StaticResource TableHeaderStyle}" HorizontalAlignment="Right" />
+                        </Grid>
+                    </Border>
+
+                    <ListView x:ConnectionId='3'                                                              SelectionMode="None">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem" BasedOn="{StaticResource TableListViewItemStyle}" />
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate                        >
+                                <Grid x:ConnectionId='5' ColumnSpacing="12" Margin="0,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="160" />
+                                        <ColumnDefinition Width="180" />
+                                        <ColumnDefinition Width="180" />
+                                        <ColumnDefinition Width="160" />
+                                        <ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="110" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock x:ConnectionId='6' Grid.Column="0"                           Style="{StaticResource TableCellStyle}" FontWeight="SemiBold" />
+                                    <TextBlock x:ConnectionId='7' Grid.Column="1"                             Style="{StaticResource TableCellStyle}" />
+                                    <TextBlock x:ConnectionId='8' Grid.Column="2"                              Style="{StaticResource TableCellStyle}" />
+                                    <TextBlock x:ConnectionId='9' Grid.Column="3"                                        Style="{StaticResource TableCellStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                                    <TextBlock x:ConnectionId='10' Grid.Column="4"                                            Style="{StaticResource TableCellStyle}" FontWeight="SemiBold" HorizontalAlignment="Right" />
+                                    <TextBlock x:ConnectionId='11' Grid.Column="5"                                    Style="{StaticResource TableCellStyle}" />
+                                    <TextBlock x:ConnectionId='12' Grid.Column="6"                                                 Style="{StaticResource TableCellStyle}" HorizontalAlignment="Right" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</Page>
+

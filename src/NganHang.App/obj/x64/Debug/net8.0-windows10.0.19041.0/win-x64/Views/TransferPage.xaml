@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Page x:ConnectionId='1'
+    x:Class="NganHang.App.Views.TransferPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:m="using:NganHang.Core.Entities"
+    xmlns:h="using:NganHang.App.Helpers"
+    Background="Transparent">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Spacing="16">
+            <TextBlock Text="Giao dịch chuyển khoản" Style="{StaticResource PageTitleStyle}" />
+            <TextBlock Text="Hạch toán ghi nợ tài khoản nguồn, ghi có tài khoản đích tức thì, tuân thủ kiểm soát rủi ro AML" Style="{StaticResource PageSubtitleStyle}" />
+
+            <InfoBar x:ConnectionId='2'                                                    
+                                                                             
+                                                                        />
+
+            <!-- Lưới 2 cột -->
+            <Grid ColumnSpacing="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="520" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Cột trái: Form chuyển khoản -->
+                <Border Style="{StaticResource CardStyle}">
+                    <StackPanel Spacing="16">
+                        <TextBlock Text="Thông tin lệnh chuyển khoản" Style="{StaticResource SectionTitleStyle}" />
+
+                        <!-- Tài khoản nguồn -->
+                        <ComboBox x:ConnectionId='9' Header="Tài khoản nguồn *" HorizontalAlignment="Stretch"
+                                                                                                     
+                                                                                              >
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate                                 >
+                                    <Grid x:ConnectionId='22' ColumnSpacing="12">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="150" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="140" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock x:ConnectionId='23'                            FontWeight="SemiBold" />
+                                        <TextBlock x:ConnectionId='24' Grid.Column="1"                                          Foreground="{ThemeResource TextFillColorSecondaryBrush}" TextTrimming="CharacterEllipsis" />
+                                        <TextBlock x:ConnectionId='25' Grid.Column="2"                                         FontWeight="Bold" Foreground="{ThemeResource BrandBrush}" HorizontalAlignment="Right" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+
+                        <!-- Tài khoản thụ hưởng -->
+                        <Grid ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:ConnectionId='19' Header="Số tài khoản thụ hưởng *" PlaceholderText="vd: 19034589201999"
+                                                                                                                          />
+                            <Button x:ConnectionId='20' Grid.Column="1" VerticalAlignment="Bottom" Content="Tra cứu"                                                     />
+                        </Grid>
+
+                        <!-- Tên người nhận hiển thị -->
+                        <StackPanel x:ConnectionId='10' Spacing="2"                                                                           >
+                            <TextBlock Text="Chủ tài khoản thụ hưởng" Style="{StaticResource LabelStyle}" />
+                            <TextBlock x:ConnectionId='18'                                                     Style="{StaticResource ValueStyle}" Foreground="{ThemeResource SuccessBrush}" />
+                        </StackPanel>
+
+                        <!-- Số tiền chuyển -->
+                        <NumberBox x:ConnectionId='11' Header="Số tiền chuyển (VND) *"
+                                                                                 
+                                   Minimum="1" SpinButtonPlacementMode="Hidden" />
+
+                        <!-- Nút chọn nhanh số tiền -->
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Button x:ConnectionId='14' Content="10 triệu"                           Tag="10000000" />
+                            <Button x:ConnectionId='15' Content="50 triệu"                           Tag="50000000" />
+                            <Button x:ConnectionId='16' Content="100 triệu"                           Tag="100000000" />
+                            <Button x:ConnectionId='17' Content="500 triệu"                           Tag="500000000" />
+                        </StackPanel>
+
+                        <!-- Nội dung chuyển khoản -->
+                        <TextBox x:ConnectionId='12' Header="Nội dung giao dịch *" PlaceholderText="vd: Thanh toan tien mua nha"
+                                                                                                                     />
+
+                        <!-- Nút xác nhận -->
+                        <Button x:ConnectionId='13' Content="Thực hiện chuyển khoản" Style="{StaticResource AccentButtonStyle}"
+                                HorizontalAlignment="Stretch" Height="40" Margin="0,12,0,0"
+                                                                                        />
+                    </StackPanel>
+                </Border>
+
+                <!-- Cột phải: Tóm tắt & Cảnh báo AML -->
+                <StackPanel Grid.Column="1" Spacing="16">
+                    <Border Style="{StaticResource CardStyle}">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="Chi tiết giao dịch dự kiến" Style="{StaticResource SectionTitleStyle}" />
+
+                            <Grid RowSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Text="Người chuyển" Style="{StaticResource LabelStyle}" />
+                                <TextBlock x:ConnectionId='4' Grid.Column="1"                                                                               Style="{StaticResource ValueStyle}" />
+
+                                <TextBlock Grid.Row="1" Text="Số dư hiện có" Style="{StaticResource LabelStyle}" />
+                                <TextBlock x:ConnectionId='5' Grid.Row="1" Grid.Column="1"                                                                               Style="{StaticResource ValueStyle}" />
+
+                                <TextBlock Grid.Row="2" Text="Phí giao dịch" Style="{StaticResource LabelStyle}" />
+                                <TextBlock x:ConnectionId='6' Grid.Row="2" Grid.Column="1"                                                              Style="{StaticResource ValueStyle}" />
+
+                                <TextBlock Grid.Row="3" Text="Hạng hội viên áp dụng" Style="{StaticResource LabelStyle}" />
+                                <Border x:ConnectionId='7' Grid.Row="3" Grid.Column="1" Style="{StaticResource BadgeBorderStyle}"                                                                                       >
+                                    <TextBlock x:ConnectionId='8'                                                                             Foreground="White" Style="{StaticResource BadgeTextStyle}" />
+                                </Border>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Thẻ cảnh báo AML khi chuyển >= 400 triệu -->
+                    <Border x:ConnectionId='3' Style="{StaticResource CardStyle}" BorderBrush="{ThemeResource DangerBrush}"                                                        >
+                        <StackPanel Spacing="8">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon Glyph="&#xE7BA;" Foreground="{ThemeResource DangerBrush}" FontSize="18" />
+                                <TextBlock Text="CẢNH BÁO RỦI RO AML" Style="{StaticResource BodyStrongTextBlockStyle}" Foreground="{ThemeResource DangerBrush}" />
+                            </StackPanel>
+                            <TextBlock Text="Giao dịch này có giá trị từ 400.000.000 VNĐ trở lên, sẽ tự động kích hoạt trigger AML trong cơ sở dữ liệu và yêu cầu cán bộ kiểm soát rủi ro phê duyệt theo quy định của Ngân hàng Nhà nước."
+                                       Style="{StaticResource LabelStyle}" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</Page>
+
